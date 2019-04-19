@@ -1,37 +1,67 @@
-<!DOCTYPE html>
-<html>
 <head>
 <meta charset=utf-8/>
 <title>Lab 1. Introduction to HTML5 and HLS</title>
-  
-  <!--
-  Embed needed js libraries for video player. Note, libraries needs to be hosted on your server, under /js folder.
-   -->
-  <!--
-  Location for CSS if needed. Note, cascade style sheets needs to be hosted on your server, under /css folder.
-  -->
-   
 
-  
+
+
+<link href="css/video-js.min.css" rel="stylesheet">
+<script src="js/video.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 </head>
 <body>
   <h1>My first HLS player</h1>
-  
+
+
+  <!-- unpkg : use the latest version of Video.js -->
+  <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
+
+  <!-- unpkg : use a specific version of Video.js (change the version numbers as necessary) -->
+  <link href="https://unpkg.com/video.js@6.11.0/dist/video-js.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/video.js@6.11.0/dist/video.min.js"></script>
+
+  <!-- cdnjs : use a specific version of Video.js (change the version numbers as necessary) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.7.3/video-js.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.7.3/video.min.js"></script>
+
   <!--
   location for your player window
   -->
-  
-	<button type="button">Play</button>
-	<button type="button">Pause</button>
-	<button type="button">Stop</button>
-	<button type="button">Jump to 5 sec forward</button>
-	<button type="button">Jump to 5 sec backwards</button>	
-	
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <!-- Or if you want a more recent canary version -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@canary"></script> -->
+  <video id="video"></video>
+  <script>
+    var video = document.getElementById('video');
+    if(Hls.isSupported()) {
+      var hls = new Hls();
+      hls.loadSource('https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8');
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED,function() {
+        video.play();
+    });
+   }
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8';
+      video.addEventListener('loadedmetadata',function() {
+        video.play();
+      });
+    }
+  </script>
+<p>
+	<button type="button" class="btn btn-sm btn-info" onclick="$('#video')[0].play()">Play</button>
+	<button type="button" class="btn btn-sm btn-info" onclick="$('#video')[0].pause()">Pause</button>
+	<button type="button" class="btn btn-sm btn-info" onclick="$('#video')[0].pause();$('#video')[0].currentTime=0">Stop</button>
+	<button type="button" class="btn btn-sm btn-info" onclick="$('#video')[0].currentTime+=5">Jump to 5 sec forward</button>
+  <button type="button" class="btn btn-sm btn-info" onclick="$('#video')[0].currentTime-=5">Jump to 5 sec backwards</button>
+</p>
 	<p>Playlist</p>
-	
-	<input type="text" name="url1" size="100" value="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"><button type="button">Load</button><br>
+
+	<input type="text" name="url1" size="100" value="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"><button type="button">Load</button><br>
 	<input type="text" name="url2" size="100" value="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"><button type="button">Load</button><br>
 	<button type="button">Shuffle</button>
 </body>
+</html>
 </html>
