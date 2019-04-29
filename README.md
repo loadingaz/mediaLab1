@@ -19,3 +19,4 @@ or try a live example: https://jsbin.com/gejugat/edit?html,output
   - To pass this lab, you have to complete at least two points from the requirement list.
   
   Tested with Mozilla Firefox 65.0.1 and Google Chrome 72.0.3626.119
+  You can test it on https://loadingaz.github.io/mediaLab1/src/
